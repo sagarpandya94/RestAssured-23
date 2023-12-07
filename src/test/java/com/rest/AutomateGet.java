@@ -145,6 +145,4 @@ public class AutomateGet {
                 assertThat().statusCode(200);
     }
 
-    @Test
-
 }
