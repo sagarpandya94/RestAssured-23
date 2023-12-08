@@ -16,7 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class AutomateGet {
-
     String apikey = "PMAK-656434cc4607b765340353a5-22c3a511abf383b861745b2f678009575b";
     @Test
     public void validate_get_status_code(){
