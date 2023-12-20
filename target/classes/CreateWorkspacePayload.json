@@ -1,0 +1,7 @@
+{
+  "workspace": {
+    "name": "Workspace from automation using a file",
+    "type": "personal",
+    "description": "RestAssured is creating this workspace using a file"
+  }
+}
