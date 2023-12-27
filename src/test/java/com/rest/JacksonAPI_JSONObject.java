@@ -2,6 +2,7 @@ package com.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -48,11 +49,33 @@ public class JacksonAPI_JSONObject {
 
         given().
                 body(mainObjectStr).
-                when().
+        when().
                 post("/workspaces").
-                then().
+        then().
                 assertThat().
                 body("workspace.name",is(equalTo("Workspace created from map in jackson")),
+                        "workspace.id",matchesPattern("^[a-z0-9-]{36}$"));
+
+    }
+
+    @Test
+    public void validate_post_request_payload_using_jackson() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode nestedObjNode = objectMapper.createObjectNode();
+        nestedObjNode.put("name","Workspace created from map in jackson1");
+        nestedObjNode.put("type","personal");
+        nestedObjNode.put("description","Hello");
+
+        ObjectNode mainObjNode = objectMapper.createObjectNode();
+        mainObjNode.set("workspace",nestedObjNode);
+
+        given().
+                body(mainObjNode).
+        when().
+                post("/workspaces").
+        then().
+                assertThat().
+                body("workspace.name",is(equalTo("Workspace created from map in jackson1")),
                         "workspace.id",matchesPattern("^[a-z0-9-]{36}$"));
 
     }

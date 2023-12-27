@@ -1,7 +1,10 @@
 package com.rest;
 
+import com.beust.ah.A;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -63,6 +66,32 @@ public class JacksonAPI_JSONArray {
                 when().
                 post("/post").
                 then().spec(customResponseSpecification).
+                assertThat().
+                body("msg",equalTo("Success"));
+    }
+
+    @Test
+    public void serialize_json_array_using_jackson() throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode arrayNodeList = objectMapper.createArrayNode();
+
+        ObjectNode obj1Node = objectMapper.createObjectNode();
+        obj1Node.put("name","sagar");
+        obj1Node.put("id","1");
+
+        ObjectNode obj2Node = objectMapper.createObjectNode();
+        obj2Node.put("name","John");
+        obj2Node.put("id","2");
+
+        arrayNodeList.add(obj1Node);
+        arrayNodeList.add(obj2Node);
+
+        given().
+                body(arrayNodeList).
+        when().
+                post("/post").
+        then().spec(customResponseSpecification).
                 assertThat().
                 body("msg",equalTo("Success"));
     }
